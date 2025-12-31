@@ -45,8 +45,7 @@
                     break;
 
                 case "2":
-                    Console.WriteLine("Do zrobienia: Karmienie");
-                    Pause();
+                    FeedMenu(pet, foods);
                     break;
 
                 case "3":
@@ -109,6 +108,32 @@
         }
 
         pet.SpendTime(choice);
+        Pause();
+    }
+
+        static void FeedMenu(Pet pet, List<Food> foods)
+    {
+        Console.Clear();
+        Console.WriteLine("===== NAKARM =====");
+        
+        for (int i = 0; i < foods.Count; i++)
+        {
+            Food foodItem = foods[i];
+            Console.WriteLine($"{i + 1}. {foodItem.Name} [Głód: -{foodItem.ReducesHungerBy}, Energia: +{foodItem.AddsEnergy}]");
+        }
+
+        Console.WriteLine("0. Wróć");
+        int choice = ReadOption(foods.Count);
+        if (choice == 0)
+        {
+            return;
+        }
+
+        Food chosenFood = foods[choice - 1];
+        pet.Feed(chosenFood);
+
+        Console.WriteLine($"Nakarmiono: {chosenFood.Name}");
+        Console.WriteLine(pet.Status);
         Pause();
     }
 }

@@ -3,6 +3,14 @@ public class Pet
 {
     public string Name { get; set; } = "";
     public Status Status { get; set; } = new Status();
+    
+    internal void Feed(Food chosenFood)
+    {
+        Status.Hunger -= chosenFood.ReducesHungerBy;
+        Status.Energy += chosenFood.AddsEnergy;
+
+        LimitStatus();
+    }
 
     internal void SpendTime(int choice)
     {
@@ -27,7 +35,11 @@ public class Pet
             default:
                 return;
         }
+        LimitStatus();
+    }
 
+    void LimitStatus()
+    {
         if (Status.Hunger < 0) Status.Hunger = 0;
         if (Status.Hunger > 100) Status.Hunger = 100;
 

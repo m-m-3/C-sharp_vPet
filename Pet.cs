@@ -3,11 +3,19 @@ public class Pet
 {
     public string Name { get; set; } = "";
     public Status Status { get; set; } = new Status();
-    
+
     internal void Feed(Food chosenFood)
     {
         Status.Hunger -= chosenFood.ReducesHungerBy;
         Status.Energy += chosenFood.AddsEnergy;
+
+        LimitStatus();
+    }
+
+    internal void Play(Toy chosenToy)
+    {
+        Status.Happiness += chosenToy.AddsHappiness;
+        Status.Energy -= chosenToy.CostsEnergy;
 
         LimitStatus();
     }

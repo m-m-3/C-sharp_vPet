@@ -49,8 +49,7 @@
                     break;
 
                 case "3":
-                    Console.WriteLine("Do zrobienia: Zabawa");
-                    Pause();
+                    PlayMenu(pet, toys);
                     break;
 
                 case "4":
@@ -111,11 +110,11 @@
         Pause();
     }
 
-        static void FeedMenu(Pet pet, List<Food> foods)
+    static void FeedMenu(Pet pet, List<Food> foods)
     {
         Console.Clear();
         Console.WriteLine("===== NAKARM =====");
-        
+
         for (int i = 0; i < foods.Count; i++)
         {
             Food foodItem = foods[i];
@@ -133,6 +132,32 @@
         pet.Feed(chosenFood);
 
         Console.WriteLine($"Nakarmiono: {chosenFood.Name}");
+        Console.WriteLine(pet.Status);
+        Pause();
+    }
+
+    static void PlayMenu(Pet pet, List<Toy> toys)
+    {
+        Console.Clear();
+        Console.WriteLine("===== POBAW SIĘ =====");
+
+        for (int i = 0; i < toys.Count; i++)
+        {
+            Toy toy = toys[i];
+            Console.WriteLine($"{i + 1}. {toy.Name} [Energia: -{toy.CostsEnergy}, Szczęście: +{toy.AddsHappiness}]");
+        }
+
+        Console.WriteLine("0. Wróć");
+        int choice = ReadOption(toys.Count);
+        if (choice == 0)
+        {
+            return;
+        }
+
+        Toy chosenToy = toys[choice - 1];
+        pet.Play(chosenToy);
+
+        Console.WriteLine($"Pobawiono się: {chosenToy.Name}");
         Console.WriteLine(pet.Status);
         Pause();
     }

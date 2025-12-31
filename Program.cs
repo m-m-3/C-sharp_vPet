@@ -1,0 +1,172 @@
+﻿class Program
+{
+    static void Main()
+    {
+        Console.Clear();
+        Console.WriteLine("===== WIRTUALNE ZWIERZĄTKO =====");
+        Console.Write("Podaj imię zwierzątka: ");
+        string petName = Console.ReadLine() ?? "";
+
+        Pet pet = new Pet
+        {
+            Name = petName
+        };
+
+        List<Food> foods = new List<Food>
+        {
+            new Food { Name = "Karma sucha", ReducesHungerBy = 15, AddsEnergy = 10 },
+            new Food { Name = "Karma mokra", ReducesHungerBy = 30, AddsEnergy = 20 }
+        };
+
+        List<Toy> toys = new List<Toy>
+        {
+            new Toy { Name = "Piłka", AddsHappiness = 20, CostsEnergy = 10 },
+            new Toy { Name = "Gryzak", AddsHappiness = 10, CostsEnergy = 5 }
+        };
+
+        while (true)
+        {
+            Console.Clear();
+            Console.WriteLine($"===== {pet.Name} =====");
+            Console.WriteLine("1. Statystyki");
+            Console.WriteLine("2. Nakarm");
+            Console.WriteLine("3. Pobaw się");
+            Console.WriteLine("4. Spędź czas");
+            Console.WriteLine("0. Wyjście");
+            Console.Write("Wybierz opcję: ");
+
+            string? choice = Console.ReadLine();
+
+            switch (choice)
+            {
+                case "1":
+                    Console.WriteLine(pet.Status);
+                    Pause();
+                    break;
+
+                case "2":
+                    FeedMenu(pet, foods);
+                    break;
+
+                case "3":
+                    PlayMenu(pet, toys);
+                    break;
+
+                case "4":
+                    SpendTimeMenu(pet);
+                    break;
+
+                case "0":
+                    return;
+
+                default:
+                    Console.WriteLine("Niepoprawny wybór.");
+                    Pause();
+                    break;
+            }
+
+            if (pet.IsGameOver())
+            {
+                Console.WriteLine("Koniec gry!");
+                Console.WriteLine(pet.Status);
+                Pause();
+                return;
+            }
+        }
+    }
+
+    static void Pause()
+    {
+        Console.WriteLine("Wciśnij Enter, aby wrócić do menu...");
+        Console.ReadLine();
+    }
+
+    static int ReadOption(int max)
+    {
+        while (true)
+        {
+            Console.Write("Wybierz opcję: ");
+            string? input = Console.ReadLine();
+
+            if (int.TryParse(input, out int value) && value >= 0 && value <= max)
+            {
+                return value;
+            }
+
+            Console.WriteLine($"Niepoprawny wybór. Podaj liczbę 0-{max}.");
+        }
+    }
+
+    static void SpendTimeMenu(Pet pet)
+    {
+        Console.Clear();
+        Console.WriteLine("===== SPĘDŹ CZAS =====");
+        Console.WriteLine("1. Krótka przerwa");
+        Console.WriteLine("2. Drzemka");
+        Console.WriteLine("3. Spanie");
+        Console.WriteLine("4. Spacer");
+        Console.WriteLine("0. Wróć");
+
+        int choice = ReadOption(4);
+
+        if (choice == 0)
+        {
+            return;
+        }
+
+        pet.SpendTime(choice);
+        Pause();
+    }
+
+    static void FeedMenu(Pet pet, List<Food> foods)
+    {
+        Console.Clear();
+        Console.WriteLine("===== NAKARM =====");
+
+        for (int i = 0; i < foods.Count; i++)
+        {
+            Food foodItem = foods[i];
+            Console.WriteLine($"{i + 1}. {foodItem.Name} [Głód: -{foodItem.ReducesHungerBy}, Energia: +{foodItem.AddsEnergy}]");
+        }
+
+        Console.WriteLine("0. Wróć");
+        int choice = ReadOption(foods.Count);
+        if (choice == 0)
+        {
+            return;
+        }
+
+        Food chosenFood = foods[choice - 1];
+        pet.Feed(chosenFood);
+
+        Console.WriteLine($"Nakarmiono: {chosenFood.Name}");
+        Console.WriteLine(pet.Status);
+        Pause();
+    }
+
+    static void PlayMenu(Pet pet, List<Toy> toys)
+    {
+        Console.Clear();
+        Console.WriteLine("===== POBAW SIĘ =====");
+
+        for (int i = 0; i < toys.Count; i++)
+        {
+            Toy toy = toys[i];
+            Console.WriteLine($"{i + 1}. {toy.Name} [Energia: -{toy.CostsEnergy}, Szczęście: +{toy.AddsHappiness}]");
+        }
+
+        Console.WriteLine("0. Wróć");
+        int choice = ReadOption(toys.Count);
+        if (choice == 0)
+        {
+            return;
+        }
+
+        Toy chosenToy = toys[choice - 1];
+        pet.Play(chosenToy);
+
+        Console.WriteLine($"Pobawiono się: {chosenToy.Name}");
+        Console.WriteLine(pet.Status);
+        Pause();
+    }
+}

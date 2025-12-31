@@ -64,6 +64,14 @@
                     Pause();
                     break;
             }
+
+            if (pet.IsGameOver())
+            {
+                Console.WriteLine("Koniec gry!");
+                Console.WriteLine(pet.Status);
+                Pause();
+                return;
+            }
         }
     }
 

@@ -57,4 +57,9 @@ public class Pet
         if (Status.Energy < 0) Status.Energy = 0;
         if (Status.Energy > 100) Status.Energy = 100;
     }
+
+    internal bool IsGameOver()
+    {
+        return Status.Hunger >= 100 || Status.Happiness <= 0 || Status.Energy <= 0;
+    }
 }

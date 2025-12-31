@@ -55,8 +55,7 @@
                     break;
 
                 case "4":
-                    Console.WriteLine("Do zrobienia: Upływ czasu");
-                    Pause();
+                    SpendTimeMenu(pet);
                     break;
 
                 case "0":
@@ -68,10 +67,48 @@
                     break;
             }
         }
-    }    
+    }
+
     static void Pause()
     {
         Console.WriteLine("Wciśnij Enter, aby wrócić do menu...");
         Console.ReadLine();
+    }
+
+    static int ReadOption(int max)
+    {
+        while (true)
+        {
+            Console.Write("Wybierz opcję: ");
+            string? input = Console.ReadLine();
+
+            if (int.TryParse(input, out int value) && value >= 0 && value <= max)
+            {
+                return value;
+            }
+
+            Console.WriteLine($"Niepoprawny wybór. Podaj liczbę 0-{max}.");
+        }
+    }
+
+    static void SpendTimeMenu(Pet pet)
+    {
+        Console.Clear();
+        Console.WriteLine("===== SPĘDŹ CZAS =====");
+        Console.WriteLine("1. Krótka przerwa");
+        Console.WriteLine("2. Drzemka");
+        Console.WriteLine("3. Spanie");
+        Console.WriteLine("4. Spacer");
+        Console.WriteLine("0. Wróć");
+
+        int choice = ReadOption(4);
+
+        if (choice == 0)
+        {
+            return;
+        }
+
+        pet.SpendTime(choice);
+        Pause();
     }
 }

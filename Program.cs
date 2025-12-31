@@ -20,8 +20,8 @@
 
         List<Toy> toys = new List<Toy>
         {
-            new Toy { Name = "Piłka", AddsFun = 20, CostsEnergy = 10 },
-            new Toy { Name = "Gryzak", AddsFun = 10, CostsEnergy = 5 }
+            new Toy { Name = "Piłka", AddsHappiness = 20, CostsEnergy = 10 },
+            new Toy { Name = "Gryzak", AddsHappiness = 10, CostsEnergy = 5 }
         };
 
         while (true)
@@ -31,7 +31,7 @@
             Console.WriteLine("1. Statystyki");
             Console.WriteLine("2. Nakarm");
             Console.WriteLine("3. Pobaw się");
-            Console.WriteLine("4. Poczekaj (upływ czasu)");
+            Console.WriteLine("4. Spędź czas");
             Console.WriteLine("0. Wyjście");
             Console.Write("Wybierz opcję: ");
 
@@ -40,7 +40,7 @@
             switch (choice)
             {
                 case "1":
-                    Console.WriteLine("Do zrobienia: Statystyki");
+                    Console.WriteLine(pet.Status);
                     Pause();
                     break;
 
@@ -67,7 +67,6 @@
                     Pause();
                     break;
             }
-                
         }
     }    
     static void Pause()
